@@ -34,7 +34,7 @@ app.use(express.json());
 app.use(express.static('../client/dist')); //express static for react
 
 //Make routes here
-app.use('/api/product', productController);
+app.use('/api/product/', productController);
 
 app.get('/api/', (req, res) => {
   res.json({ msg: 'Hello World!' });
