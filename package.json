@@ -9,7 +9,15 @@
     "client",
     "server"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clarenceho13/Capstone.git"
+  },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/clarenceho13/Capstone/issues"
+  },
+  "homepage": "https://github.com/clarenceho13/Capstone#readme"
 }
