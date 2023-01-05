@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useReducer } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useReducer } from 'react';
 import axios from 'axios';
 import logger from 'use-reducer-logger';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Product from './Product';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -43,26 +45,17 @@ function HomeScreen() {
       <h1>Featured Products</h1>
       <div className="products">
         {loading ? (
-          <div>Loading...</div>   //loading will show if you change network in chrome to slow 3g
+          <div>Loading...</div> //loading will show if you change network in chrome to slow 3g
         ) : error ? (
           <div>{error}</div>
         ) : (
-          product.map((product) => (
-            <div className="product" key={product.id}>
-              <Link to={`/product/${product.id}`}>
-                <img src={product.image} alt={product.name} />
-              </Link>
-
-              <div className="product-info">
-                <Link to={`/product/${product.id}`}>
-                  <p>{product.name}</p>
-                </Link>
-
-                <p>{product.price}</p>
-                <button>Add to Cart</button>
-              </div>
-            </div>
-          ))
+          <Row>
+            {product.map((product) => (
+              <Col key={product.id} sm={6} md={4} lg={3} className="mb-3">
+             <Product product={product}></Product>         {/* {product}is the prop to pass to Product.jsx*/}
+              </Col>
+            ))}
+          </Row>
         )}
       </div>
     </div>
@@ -70,3 +63,5 @@ function HomeScreen() {
 }
 
 export default HomeScreen;
+
+

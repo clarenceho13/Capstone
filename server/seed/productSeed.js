@@ -9,6 +9,8 @@ const seedProduct = async (req, res) => {
       price: 1300,
       image:
         'https://res.cloudinary.com/dgmwjjrtf/image/upload/v1672316205/Apple-iPhone-14-iPhone-14-Plus-hero-220907_Full-Bleed-Image.jpg.large_r0kksa.jpg',
+      ratings: 3.5,
+      reviewNum: 5,
     },
     {
       id: 2,
@@ -17,6 +19,8 @@ const seedProduct = async (req, res) => {
       price: 1650,
       image:
         'https://res.cloudinary.com/dgmwjjrtf/image/upload/v1672316272/iphone-14-pro_overview__e414c54gtu6a_og_bmadrb.png',
+      ratings: 4.5,
+      reviewNum: 12,
     },
     {
       id: 3,
@@ -25,6 +29,8 @@ const seedProduct = async (req, res) => {
       price: 1800,
       image:
         'https://res.cloudinary.com/dgmwjjrtf/image/upload/v1672316311/iphone-14-pro-model-unselect-gallery-1-202209_ku5mql.jpg',
+      ratings: 5.0,
+      reviewNum: 6,
     },
     {
       id: 4,
@@ -33,6 +39,8 @@ const seedProduct = async (req, res) => {
       price: 350,
       image:
         'https://res.cloudinary.com/dgmwjjrtf/image/upload/v1672901197/MQD83_swjpak.jpg',
+      ratings: 4.0,
+      reviewNum: 5,
     },
   ];
   await Product.deleteMany({});
