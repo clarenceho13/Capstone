@@ -26,6 +26,14 @@ const seedProduct = async (req, res) => {
       image:
         'https://res.cloudinary.com/dgmwjjrtf/image/upload/v1672316311/iphone-14-pro-model-unselect-gallery-1-202209_ku5mql.jpg',
     },
+    {
+      id: 4,
+      name: 'AirPods Pro',
+      description: 'True Wireless Earbuds',
+      price: 350,
+      image:
+        'https://res.cloudinary.com/dgmwjjrtf/image/upload/v1672901197/MQD83_swjpak.jpg',
+    },
   ];
   await Product.deleteMany({});
   const product = await Product.insertMany(seedProduct);
