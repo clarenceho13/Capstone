@@ -7,6 +7,17 @@ const seedProduct = require('../seed/productSeed');
 //! Seed Product
 router.get('/seed', seedProduct);
 
+//get specific product data
+router.get('/:id',async (req,res)=>{
+  const { id } = req.params;
+  try {
+    const product = await Product.findById(id).exec();
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 //! Get all product data
 router.get('/', async (req, res) => {
   try {
@@ -19,7 +30,7 @@ router.get('/', async (req, res) => {
 
 
 //! Get specific product data
-
+/*
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -29,7 +40,7 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({message: 'Product not found'});
   }
 });
-
+*/
 
 module.exports = router;
 

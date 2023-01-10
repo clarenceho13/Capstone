@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const path = require('path');
 
+
 //import controllers here
 const productController = require('../server/controllers/productController');
 
@@ -39,6 +40,7 @@ app.use('/api/product', productController);
 app.get('/api/', (req, res) => {
   res.json({ msg: 'Hello World!' });
 });
+
 
 
 //! SAFETY NET
