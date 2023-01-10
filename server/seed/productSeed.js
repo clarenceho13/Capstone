@@ -3,7 +3,6 @@ const Product = require('../models/Product');
 const seedProduct = async (req, res) => {
   const seedProduct = [
     {
-      id: 1,
       name: 'iPhone 14',
       description: 'Comes with a 6.1 inch display',
       price: 1300,
@@ -13,7 +12,6 @@ const seedProduct = async (req, res) => {
       reviewNum: 5,
     },
     {
-      id: 2,
       name: 'iPhone 14 Pro',
       description: 'Comes with a 6.1 inch display and 120hz screen.',
       price: 1650,
@@ -23,7 +21,6 @@ const seedProduct = async (req, res) => {
       reviewNum: 12,
     },
     {
-      id: 3,
       name: 'iPhone 14 Pro Max',
       description: 'Comes with a 6.7 inch display and 120hz screen.',
       price: 1800,
@@ -33,7 +30,6 @@ const seedProduct = async (req, res) => {
       reviewNum: 6,
     },
     {
-      id: 4,
       name: 'AirPods Pro',
       description: 'True Wireless Earbuds',
       price: 350,
@@ -49,3 +45,5 @@ const seedProduct = async (req, res) => {
 };
 
 module.exports = seedProduct;
+
+//look at data.js

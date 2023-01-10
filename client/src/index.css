@@ -9,6 +9,10 @@ body {
 main {
   flex: 1;
 }
+.btn-primary {
+  background-color: red;
+  color: black;
+}
 .products {
   display: flex;
   flex-wrap: wrap;
@@ -18,10 +22,12 @@ main {
 .product{
   border: 1px #404044 solid;
   margin: 1rem; 
+  width: 320px;
+  height: 400px;
 }
-.product img {
-  height: 300px;
-  width: 500px;
+.card-img-top { 
+  width: 270px;
+  height: 245px;
 }
 
 .product-info {

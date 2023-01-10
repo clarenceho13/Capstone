@@ -40,6 +40,7 @@ app.get('/api/', (req, res) => {
   res.json({ msg: 'Hello World!' });
 });
 
+
 //! SAFETY NET
 app.get('*', (req, res) =>
   res.sendFile(path.resolve('../client/dist', 'index.html'))

@@ -7,9 +7,10 @@ import Ratings from './Ratings';
 // props {product} is passed down from HomeScreen.jsx
 function Product(props) {
   const { product } = props;
+  console.log(props)
   return (
     
-    <Card >
+    <Card className='product'>
       <Link to={`/product/${product.id}`}>
         <img src={product.image} className="card-img-top" alt={product.name} />
       </Link>

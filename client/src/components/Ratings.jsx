@@ -60,8 +60,15 @@ function Ratings(props) {
           }
         />
       </span>
+      <span> Ratings: {ratings}/5</span>
+      <br />
+      <span>Number of reviews: {reviewNum}</span>
+      
+      
     </div>
   );
 }
 
 export default Ratings;
+
+//this is not working. maybe the cdn? ( 1 hr 46 min)
