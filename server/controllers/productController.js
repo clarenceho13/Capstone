@@ -14,7 +14,7 @@ router.get('/:id',async (req,res)=>{
     const product = await Product.findById(id).exec();
     res.status(200).json(product);
   } catch (error) {
-    res.status(500).json(error);
+    res.status(404).json({message: 'Product not found, hahaha'}); //fetch from error.jsx in frontend
   }
 });
 

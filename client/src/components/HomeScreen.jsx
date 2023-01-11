@@ -4,6 +4,9 @@ import logger from 'use-reducer-logger';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Product from './Product';
+import { Helmet } from 'react-helmet-async';
+import LoadingPage from './LoadingPage'; //press control + space to import components easier
+import MessagePage from './MessagePage';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -42,17 +45,21 @@ function HomeScreen() {
   }, []);
   return (
     <div>
+      <Helmet>
+        <title>Amazon Recreate</title>
+      </Helmet>
       <h1>Featured Products</h1>
       <div className="products">
         {loading ? (
-          <div>Loading...</div> //loading will show if you change network in chrome to slow 3g
+          <LoadingPage />
         ) : error ? (
-          <div>{error}</div>
+          <MessagePage variant="danger">{error}</MessagePage>
         ) : (
           <Row>
             {product.map((product) => (
               <Col key={product.id} sm={6} md={4} lg={3} className="mb-3">
-             <Product product={product}></Product>         {/* {product}is the prop to pass to Product.jsx*/}
+                <Product product={product}></Product>{' '}
+                {/* {product}is the prop to pass to Product.jsx*/}
               </Col>
             ))}
           </Row>
@@ -63,5 +70,3 @@ function HomeScreen() {
 }
 
 export default HomeScreen;
-
-
