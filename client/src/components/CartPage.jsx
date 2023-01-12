@@ -3,17 +3,39 @@ import { Cart } from '../Cart';
 import { Helmet } from 'react-helmet-async';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
 import MessagePage from './MessagePage';
 import Button from 'react-bootstrap/Button'; //might use
 import Card from 'react-bootstrap/Card';
+import axios from 'axios';
 
 function CartPage() {
+  const navigate = useNavigate();
   const { state, dispatch: contextDispatch } = useContext(Cart);
   const {
     cart: { items },
   } = state;
+
+  const updateCart = async (item, quantity) => {
+    const { data } = await axios.get(`/api/product/${item._id}`);
+    if (data.stock < quantity) {
+      window.alert('Product is out of stock!'); //show alert that product is out of stock once stock adde to cart is reached
+      return;
+    }
+    contextDispatch({
+      type: 'ADD_TO_CART',
+      payload: { ...item, quantity },
+    });
+  };
+  //copied from product screen
+  const deleteItem = (item) => {
+    contextDispatch({ type: 'DELETE_FROM_CART', payload: item });
+  };
+
+  const checkOut = () => {
+    navigate('/signin?redirect=/shipping'); //check if user is autheticated, if yes, direct to shipping page
+  };
   return (
     <div>
       <Helmet>
@@ -42,7 +64,10 @@ function CartPage() {
                       <Link to={`/product/${item._id}`}>{item.name}</Link>
                     </Col>
                     <Col md={2}>
-                      <Button variant="danger" disabled={item.quantity === 1}>
+                      <Button
+                        variant="danger"
+                        onClick={() => updateCart(item, item.quantity - 1)}
+                        disabled={item.quantity === 1}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
@@ -56,7 +81,10 @@ function CartPage() {
                       {''}
                       <span>{item.quantity}</span>
                       {''}
-                      <Button variant="success" disabled={item.quantity === 1}>
+                      <Button
+                        variant="success"
+                        onClick={() => updateCart(item, item.quantity + 1)}
+                        disabled={item.quantity === item.stock}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
@@ -75,7 +103,7 @@ function CartPage() {
                     <Col md={2}>
                       <Button
                         variant="secondary"
-                        disabled={item.quantity === item.stock}>
+                        onClick={() => deleteItem(item)}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
@@ -105,13 +133,15 @@ function CartPage() {
                   </h3>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                <div className="d-grid">
-                <Button type='button'
-                variant="warning"
-                disabled={items.length === 0}> 
-                Proceed to Checkout
-                </Button>
-                </div>
+                  <div className="d-grid">
+                    <Button
+                      type="button"
+                      variant="warning"
+                      onClick={checkOut}
+                      disabled={items.length === 0}>
+                      Proceed to Checkout
+                    </Button>
+                  </div>
                 </ListGroup.Item>
               </ListGroup>
             </Card.Body>
@@ -128,3 +158,4 @@ export default CartPage;
 //button variants referred from https://react-bootstrap.github.io/components/buttons/
 //button icons from https://icons.getbootstrap.com/
 //buttons are disabled under certain conditions
+//

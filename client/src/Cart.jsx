@@ -4,10 +4,12 @@ export const Cart = createContext();
 
 const initialState = {
   cart: {
-    items: [], //this is where our add to cart will be 
+    items: localStorage.getItem('items')
+      ? JSON.parse(localStorage.getItem('items'))
+      : [],
   },
 };
-
+//items are stored in local storage and should not be empty array
 function reducer(state, action) {
   switch (action.type) {
     case 'ADD_TO_CART':
@@ -20,8 +22,16 @@ function reducer(state, action) {
             item._id === stockCount._id ? newItem : item
           )
         : [...state.cart.items, newItem];
+        localStorage.setItem('items', JSON.stringify(items));
       return { ...state, cart: { ...state.cart, items } };
-
+      
+    case 'DELETE_FROM_CART': {
+      const items = state.cart.items.filter(
+        (item) => item._id !== action.payload._id
+      );
+      localStorage.setItem('items', JSON.stringify(items));
+      return { ...state, cart: { ...state.cart, items } };
+    }
     default:
       return state;
   }
@@ -37,3 +47,4 @@ export default CartProvider;
 
 //for adding new item to cart
 //usecontext so that item can be added to cart anywhere
+//local storage allows you to save key/value pairs in the browser. https://www.w3schools.com/jsref/prop_win_localstorage.asp
