@@ -4,7 +4,7 @@ export const Cart = createContext();
 
 const initialState = {
   cart: {
-    items: [],
+    items: [], //this is where our add to cart will be 
   },
 };
 

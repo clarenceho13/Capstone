@@ -14,4 +14,4 @@ function Ratings(props) {
 
 export default Ratings;
 
-//this is not working. maybe the cdn? ( 1 hr 46 min)
+

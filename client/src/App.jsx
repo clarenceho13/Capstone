@@ -9,6 +9,7 @@ import Container from 'react-bootstrap/Container';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
 import { Cart } from './Cart';
+import CartPage from './components/CartPage';
 
 function App() {
   const { state } = useContext(Cart); //use this line for passing down context
@@ -47,6 +48,7 @@ function App() {
           <Container className="mt-3">
             <Routes>
               <Route path="/product/:id" element={<ProductScreen />} />
+              <Route path="/cart" element={<CartPage />} />
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>

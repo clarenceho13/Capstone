@@ -12,6 +12,7 @@ import LoadingPage from './LoadingPage';
 import MessagePage from './MessagePage';
 import errorMessage from './error';
 import { Cart } from '../Cart';
+import { useNavigate } from 'react-router-dom';
 //import Ratings from './Ratings';
 
 const reducer = (state, action) => {
@@ -28,6 +29,7 @@ const reducer = (state, action) => {
 };
 
 function ProductScreen() {
+  const navigate = useNavigate();
   const params = useParams();
   const { id } = params;
 
@@ -60,13 +62,14 @@ function ProductScreen() {
     const quantity = stockCount? stockCount.quantity + 1 : 1; //quantity should increase, other set quantity to 1
     const { data } = await axios.get(`/api/product/${product._id}`);
     if (data.stock < quantity) {
-      window.alert('Product is out of stock!');
+      window.alert('Product is out of stock!'); //show alert that product is out of stock once stock adde to cart is reached
       return;
     }
     contextDispatch({
       type: 'ADD_TO_CART',
       payload: { ...product, quantity },
     });
+    navigate('/cart'); //navigate to cart screen after adding item to the cart
   };
   return loading ? (
     <LoadingPage />
