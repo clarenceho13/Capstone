@@ -41,3 +41,7 @@ main {
 .img-thumbnail {
   height: 80px;
 }
+
+.sign-in {
+  max-width: 600px;
+}

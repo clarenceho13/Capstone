@@ -4,9 +4,11 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const path = require('path');
 
-
-//import controllers here
+//import controllers and models here
+//if model is already export to controller, then you only need to import the controller
 const productController = require('../server/controllers/productController');
+//const User = require('../server/models/User'); (note:use this code to set login)
+const userController = require('../server/controllers/userController');
 
 //! CONFIGURATION AND CONNECTION
 const app = express();
@@ -32,16 +34,20 @@ mongoose.connection.on('disconnected', () => console.log('mongo disconnected'));
 //! MIDDLEWARE
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('../client/dist')); //express static for react
 
 //Make routes here
 app.use('/api/product', productController);
+app.use('/api/user', userController);
 
+//middleware for error
+app.use((err, req, res, next )=>{
+  res.status(500).send({message: err.message})
+})
 app.get('/api/', (req, res) => {
   res.json({ msg: 'Hello World!' });
 });
-
-
 
 //! SAFETY NET
 app.get('*', (req, res) =>

@@ -2,8 +2,10 @@ import React, { useContext } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomeScreen from './components/HomeScreen';
 import ProductScreen from './components/ProductScreen';
+import SignInPage from './components/SignInPage';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import Badge from 'react-bootstrap/Badge';
 import Container from 'react-bootstrap/Container';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -12,8 +14,13 @@ import { Cart } from './Cart';
 import CartPage from './components/CartPage';
 
 function App() {
-  const { state } = useContext(Cart); //use this line for passing down context
-  const { cart } = state;
+  const { state, dispatch: contextDispatch } = useContext(Cart); //use this line for passing down context
+  const { cart, userInfo } = state;
+
+  const signOut = () => {
+    contextDispatch({ type: 'USER_SIGN_OUT' });
+    localStorage.removeItem('userInfo'); //clear the user info from the localstorage
+  };
   return (
     <BrowserRouter>
       <div className="d-flex flex-column site-container">
@@ -36,10 +43,31 @@ function App() {
                   </svg>
                   {cart.items.length > 0 && (
                     <Badge pill bg="danger">
-                      {cart.items.reduce((a, c)=> a + c.quantity, 0)}
+                      {cart.items.reduce((a, c) => a + c.quantity, 0)}
                     </Badge>
                   )}
                 </Link>
+
+                {userInfo ? (
+                  <NavDropdown title={userInfo.name} id="nav-dropdown">
+                    <LinkContainer to="/userprofile">
+                      <NavDropdown.Item>Your Account</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/orders">
+                      <NavDropdown.Item>Your Orders</NavDropdown.Item>
+                    </LinkContainer>
+                    <Link
+                      className="dropdown-item"
+                      to="#signout"
+                      onClick={signOut}>
+                      Sign Out
+                    </Link>
+                  </NavDropdown>
+                ) : (
+                  <Link to="/signin" className="nav-link">
+                    Hello, sign in
+                  </Link>
+                )}
               </Nav>
             </Container>
           </Navbar>
@@ -49,12 +77,24 @@ function App() {
             <Routes>
               <Route path="/product/:id" element={<ProductScreen />} />
               <Route path="/cart" element={<CartPage />} />
+              <Route path="/signin" element={<SignInPage />} />
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>
         </main>
         <footer>
-          <div className="text-center">All rights reserved</div>
+          <div className="text-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              fill="currentColor"
+              class="bi bi-c-circle"
+              viewBox="0 0 16 16">
+              <path d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8Zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0ZM8.146 4.992c-1.212 0-1.927.92-1.927 2.502v1.06c0 1.571.703 2.462 1.927 2.462.979 0 1.641-.586 1.729-1.418h1.295v.093c-.1 1.448-1.354 2.467-3.03 2.467-2.091 0-3.269-1.336-3.269-3.603V7.482c0-2.261 1.201-3.638 3.27-3.638 1.681 0 2.935 1.054 3.029 2.572v.088H9.875c-.088-.879-.768-1.512-1.729-1.512Z" />
+            </svg>
+            All rights reserved
+          </div>
         </footer>
       </div>
     </BrowserRouter>
@@ -64,4 +104,4 @@ function App() {
 export default App;
 
 //cart logo <svg> taken from https://icons.getbootstrap.com/icons/cart4/
-//reduce function is use for calculate quantity 
+//reduce function is use for calculate quantity

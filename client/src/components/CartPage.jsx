@@ -16,19 +16,23 @@ function CartPage() {
   const {
     cart: { items },
   } = state;
-
+  
+  //show whether the item is available or not
   const updateCart = async (item, quantity) => {
     const { data } = await axios.get(`/api/product/${item._id}`);
     if (data.stock < quantity) {
       window.alert('Product is out of stock!'); //show alert that product is out of stock once stock adde to cart is reached
       return;
+    }else {
+      contextDispatch({
+        type: 'ADD_TO_CART',
+        payload: { ...item, quantity },
+      });
     }
-    contextDispatch({
-      type: 'ADD_TO_CART',
-      payload: { ...item, quantity },
-    });
+    
   };
   //copied from product screen
+  //delete from cart
   const deleteItem = (item) => {
     contextDispatch({ type: 'DELETE_FROM_CART', payload: item });
   };
