@@ -33,7 +33,7 @@ mongoose.connection.on('disconnected', () => console.log('mongo disconnected'));
 
 //! MIDDLEWARE
 app.use(morgan('dev'));
-app.use(express.json());
+app.use(express.json()); //to send json to frontend
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('../client/dist')); //express static for react
 

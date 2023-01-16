@@ -45,3 +45,13 @@ main {
 .sign-in {
   max-width: 600px;
 }
+
+.checkout > div{
+  border-bottom: 0.2rem solid #8b8b93;
+  color: #8b8b93;
+}
+
+.checkout > div.active{
+  border-bottom: 0.2rem solid #0dd528;
+  color: #0dd528;
+} 

@@ -8,26 +8,25 @@ const generateToken = require('../token');
 
 //users are seeded in the controller instead of the seed file
 router.get('/seed', async (req, res) => {
-  const user = [
+  const seedUser = [
     {
       name: 'clarence',
       email: 'clarence@email.com',
-      phoneNumber: 84770730,
+      
       password: bcrypt.hashSync('hohoho', 10),
       admin: true,
     },
     {
       name: 'george',
       email: 'george@email.com',
-      phoneNumber: 84770720,
       password: bcrypt.hashSync('alexis', 10),
       admin: false,
     },
   ];
   try {
-    await User.deleteMany({}); //* delete all users
-    const newUsers = await User.create(user);
-    res.json(newUsers);
+   await User.deleteMany({}); //* delete all users
+    const user = await User.create(seedUser);
+    res.json(user);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -51,15 +50,22 @@ router.get("/", async (req, res) => {
   }
 });
 */
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
-  try {
-    const user = await User.findById(id);
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ error });
-  }
-});
+
+router.post('/signup', expressAsyncHandler(async (req,res)=>{
+  const newUser = new User({
+    name: req.body.name,
+    email: req.body.email,
+    password: bcrypt.hashSync(req.body.password, 10),
+  });
+  const user = await newUser.save();
+  res.send({
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    admin: user.admin,
+    token: generateToken(user),
+  });
+  }));
 
 //need to define error handler for express in server.js
 router.post(
@@ -83,6 +89,18 @@ router.post(
       .send({ message: 'Unautorized: No such email or password registered' });
   })
 );
+
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findById(id);
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+});
+
+
 //! Get all users data
 //localhost:3000/api/user/
 router.get('/', async (req, res) => {

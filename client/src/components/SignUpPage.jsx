@@ -8,23 +8,31 @@ import axios from 'axios';
 import { Cart } from '../Cart';
 import errorMessage from './error';
 
-function SignInPage() {
+function SignUpPage() {
   const navigate =useNavigate();
   
   const { search } = useLocation();
   //const searchParams = new URLSearchParams(paramsString);
   const reDirect = new URLSearchParams(search).get('redirect');
   const redirect = reDirect ? reDirect : '/'; //bring us back to home screen if redirect not true
+  
+  const [name, setName]=useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword]=useState('');
 
   const { state, dispatch: contextDispatch } = useContext(Cart);
   const { userInfo }= state; //note: put state below context to access it
 
-  const submitSignIn = async (e) => {
-    e.preventDefault(); //prevent refresh when user sign in
+  const submitSignUp = async (e) => {
+    e.preventDefault(); //prevent refresh when user sign up
+    if (password !== confirmPassword){
+        alert('Passwords do not match!');
+        return;
+    }
     try {
-      const { data } = await axios.post('api/user/signin', {
+      const { data } = await axios.post('api/user/signup', {
+        name,
         email,
         password,
       });
@@ -45,12 +53,20 @@ function SignInPage() {
   }, [navigate, redirect, userInfo]
   );
   return (
-    <Container className="sign-in">
+    <Container className="sign-up">
       <Helmet>
-        <title>Please Sign in</title>
+        <title>Create an Account</title>
       </Helmet>
-      <h1 className="my-3">Sign In</h1>
-      <Form onSubmit={submitSignIn}>
+      <h1 className="my-3">Sign Up</h1>
+      <Form onSubmit={submitSignUp}>
+      <Form.Group className="mb-3" controlId="formBasicName">
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            placeholder="Enter name"
+            required
+            onChange={(e) => setName(e.target.value)}
+          />
+        </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
@@ -72,28 +88,27 @@ function SignInPage() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
+          <Form.Label>Confirm Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Confirm Password"
+            required
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </Form.Group>
         <div className="mb-3">
           <Button variant="primary" type="submit">
-            Sign in
+            Sign up
           </Button>
         </div>
         <div className="mb-3">
-          Are you a new Customer?{''}
-          <Link to={`/signup?redirect=${redirect}`}>Create an account</Link>
+          Already have an account?{''}
+          <Link to={`/signin?redirect=${redirect}`}>Sign in</Link>
         </div>
       </Form>
     </Container>
   );
 }
 
-export default SignInPage;
-
-//https://react-bootstrap.github.io/layout/grid/
-//information on react-boostrap form: https://react-bootstrap.github.io/forms/overview/
-// button boostrap from https://react-bootstrap.github.io/components/buttons/
-//useLocation from react-router-dom https://reactrouter.com/en/main/hooks/use-location
-//search params in URL : https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
-// Boiler plate for async functions:
-//const variable=async(arguement)=>{
-//do something
-//}
+export default SignUpPage;
