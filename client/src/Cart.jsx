@@ -14,6 +14,9 @@ const initialState = {
     items: localStorage.getItem('items')
       ? JSON.parse(localStorage.getItem('items'))
       : [],
+      paymentMethod: localStorage.getItem('paymentMethod')
+      ? localStorage.getItem('paymentMethod')
+      : '',
   },
 };
 //items are stored in local storage and should not be empty array
@@ -44,16 +47,25 @@ function reducer(state, action) {
       return { ...state, userInfo: action.payload };
 
     case 'USER_SIGN_OUT':
-      return { ...state, userInfo: null, 
-      cart: {
-        shippingAddress: {},
-        items: [],
-      }};
+      return {
+        ...state,
+        userInfo: null,
+        cart: {
+          shippingAddress: {},
+          items: [],
+          paymentMethod: '',
+        },
+      };
 
     case 'SAVE_SHIPPING_ADDRESS':
       return {
         ...state,
         cart: { ...state.cart, shippingAddress: action.payload },
+      };
+    case 'SAVE_PAYMENT_METHOD':
+      return {
+        ...state,
+        cart: { ...state.cart, paymentMethod: action.payload },
       };
     default:
       return state;

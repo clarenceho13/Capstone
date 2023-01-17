@@ -13,10 +13,10 @@ function ShippingPage() {
     userInfo,
     cart: { shippingAddress },
   } = state;
-  const [yourName, setYourName] = useState(shippingAddress.yourname || '');
-  const [yourAddress, setYourAddress] = useState(shippingAddress.address || '');
-  const [yourNumber, setYourNumber] = useState(shippingAddress.number || '');
-  const [yourPostalCode, setYourPostalCode] = useState(shippingAddress.postalcode || '');
+  const [fullName, setFullName] = useState(shippingAddress.fullName || '');
+  const [address, setAddress] = useState(shippingAddress.address || '');
+  const [number, setNumber] = useState(shippingAddress.number || '');
+  const [postalCode, setPostalCode] = useState(shippingAddress.postalCode || '');
 
   useEffect(()=>{
     if(!userInfo){
@@ -28,19 +28,19 @@ function ShippingPage() {
     contextDispatch({
       type: 'SAVE_SHIPPING_ADDRESS',
       payload: {
-        yourname,
+        fullName,
         address,
         number,
-        postalcode,
+        postalCode,
       },
     });
     localStorage.setItem(
       'shippingAddress',
       JSON.stringify({
-        yourname,
+        fullName,
         address,
         number,
-        postalcode,
+        postalCode,
       })
     );
     navigate('/payment');
@@ -56,39 +56,39 @@ function ShippingPage() {
         <h1 className="my-3">Shipping Address</h1>
 
         <Form onSubmit={submitOrder}>
-          <Form.Group className="mb-3" controlId="yourName">
+          <Form.Group className="mb-3" controlId="fullName">
             <Form.Label>Name</Form.Label>
             <Form.Control
-              value={yourName}
+              value={fullName}
               placeholder="Enter your Name"
-              onChange={(e) => setYourName(e.target.value)}
+              onChange={(e) => setFullName(e.target.value)}
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="yourNumber">
+          <Form.Group className="mb-3" controlId="number">
             <Form.Label>Contact Number</Form.Label>
             <Form.Control
-              value={yourNumber}
+              value={number}
               placeholder="Contact Number"
-              onChange={(e) => setYourNumber(e.target.value)}
+              onChange={(e) => setNumber(e.target.value)}
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="yourAddress">
+          <Form.Group className="mb-3" controlId="address">
             <Form.Label>Address</Form.Label>
             <Form.Control
-              value={yourAddress}
+              value={address}
               placeholder="Enter your Address"
-              onChange={(e) => setYourAddress(e.target.value)}
+              onChange={(e) => setAddress(e.target.value)}
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="yourPostalCode">
+          <Form.Group className="mb-3" controlId="postalCode">
             <Form.Label>Postal Code</Form.Label>
             <Form.Control
-              value={yourPostalCode}
+              value={postalCode}
               placeholder="Postal Code"
-              onChange={(e) => setYourPostalCode(e.target.value)}
+              onChange={(e) => setPostalCode(e.target.value)}
               required
             />
           </Form.Group>

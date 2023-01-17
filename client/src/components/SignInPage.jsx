@@ -17,12 +17,17 @@ function SignInPage() {
   const redirect = reDirect ? reDirect : '/'; //bring us back to home screen if redirect not true
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword]=useState('');
 
   const { state, dispatch: contextDispatch } = useContext(Cart);
   const { userInfo }= state; //note: put state below context to access it
 
   const submitSignIn = async (e) => {
     e.preventDefault(); //prevent refresh when user sign in
+    if (password !== confirmPassword){
+      alert('Passwords do not match!');
+      return;
+  }
     try {
       const { data } = await axios.post('api/user/signin', {
         email,
@@ -70,6 +75,15 @@ function SignInPage() {
             placeholder="Password"
             required
             onChange={(e) => setPassword(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
+          <Form.Label>Confirm Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Confirm Password"
+            required
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </Form.Group>
         <div className="mb-3">
