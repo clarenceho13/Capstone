@@ -30,7 +30,7 @@ function Product(props) {
   };
   //copied function from ProductScreen so that we can add to cart in the home page
   return (
-    <Card className="product">
+    <Card className="product" border="dark">
       <Link to={`/product/${product._id}`}>
         <img src={product.image} className="card-img-top" alt={product.name} />
       </Link>

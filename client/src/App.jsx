@@ -16,6 +16,8 @@ import CartPage from './components/CartPage';
 import SignUpPage from './components/SignUpPage';
 import PaymentModes from './components/PaymentModes';
 import OrderPage from './components/OrderPage';
+import OrderStatus from './components/OrderStatus';
+import OrderHistory from './components/OrderHistory';
 
 function App() {
   const { state, dispatch: contextDispatch } = useContext(Cart); //use this line for passing down context
@@ -59,7 +61,7 @@ function App() {
                     <LinkContainer to="/userprofile">
                       <NavDropdown.Item>Your Account</NavDropdown.Item>
                     </LinkContainer>
-                    <LinkContainer to="/orders">
+                    <LinkContainer to="/orderhistory">
                       <NavDropdown.Item>Your Orders</NavDropdown.Item>
                     </LinkContainer>
                     <Link
@@ -87,7 +89,9 @@ function App() {
               <Route path="/signup" element={<SignUpPage />} />
               <Route path="/shipping" element={<ShippingPage />} />
               <Route path="/payment" element={<PaymentModes />} />
+              <Route path="/orderhistory" element={<OrderHistory />} />
               <Route path="/order" element={<OrderPage />} />
+              <Route path="/order/:id" element={<OrderStatus />} />
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>

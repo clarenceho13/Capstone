@@ -9,6 +9,7 @@ const path = require('path');
 const productController = require('../server/controllers/productController');
 //const User = require('../server/models/User'); (note:use this code to set login)
 const userController = require('../server/controllers/userController');
+const orderController= require('../server/controllers/orderController');
 
 //! CONFIGURATION AND CONNECTION
 const app = express();
@@ -36,10 +37,15 @@ app.use(morgan('dev'));
 app.use(express.json()); //to send json to frontend
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('../client/dist')); //express static for react
+app.use('/api/keys/paypal',(req,res)=>{
+res.send(process.env.PAYPAL_CLIENT_ID || 'sb' );
+});
+
 
 //Make routes here
 app.use('/api/product', productController);
 app.use('/api/user', userController);
+app.use('/api/orders', orderController);
 
 //middleware for error
 app.use((err, req, res, next )=>{
@@ -61,3 +67,6 @@ mongoose.connection.once('open', () => {
     console.log(`Example app listening on port ${PORT}`);
   });
 });
+
+//https://www.npmjs.com/package/@paypal/react-paypal-js 
+//install in client

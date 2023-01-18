@@ -101,7 +101,7 @@ function ProductScreen() {
           </ListGroup>
         </Col>
         <Col md={3}>
-          <Card>
+          <Card border="dark">
             <Card.Body>
               <ListGroup variant="flush">
                 <ListGroup.Item>

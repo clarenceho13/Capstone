@@ -20,6 +20,7 @@ const initialState = {
   },
 };
 //items are stored in local storage and should not be empty array
+//reducer is independent of the component and hence declared outside
 function reducer(state, action) {
   switch (action.type) {
     case 'ADD_TO_CART':
@@ -42,7 +43,8 @@ function reducer(state, action) {
       localStorage.setItem('items', JSON.stringify(items));
       return { ...state, cart: { ...state.cart, items } };
     }
-
+    case 'CLEAR_CART':
+      return {...state, cart:{...state.cart, items:[]}}
     case 'USER_SIGN_IN':
       return { ...state, userInfo: action.payload };
 
