@@ -69,28 +69,33 @@ function OrderHistory() {
             </tr>
           </thead>
           <tbody>
-          {orders.map((order)=>(
-            <tr key={order._id}>
-            <td>{order._id}</td>
-            <td>{order.paymentDate}</td>
-            <td>${order.totalPrice.toFixed(2)}</td>
-            <td>{order.paymentStatus ? order.paymentDate.substring(0,10): 'Not Paid'}</td>
-            <td>{order.deliveryStatus ? order.deliveryDate.subString(0,10): 'Not Delivered'}</td>
-            <td>
-            <Button
-            type="button"
-            variant="secondary"
-            onClick={()=>{
-                navigate(`/order/${order._id}`);
-            }}
-            >
-            Details
-            </Button>
-            </td>
-
-            </tr>
-
-          ))}
+            {orders.map((order) => (
+              <tr key={order._id}>
+                <td>{order._id}</td>
+                <td>{order.paymentDate}</td>
+                <td>${order.totalPrice.toFixed(2)}</td>
+                <td>
+                  {order.paymentStatus
+                    ? order.paymentDate.substring(0, 10)
+                    : 'Not Paid'}
+                </td>
+                <td>
+                  {order.deliveryStatus
+                    ? order.deliveryDate.subString(0, 10)
+                    : 'Not Delivered'}
+                </td>
+                <td>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={() => {
+                      navigate(`/order/${order._id}`);
+                    }}>
+                    Details
+                  </Button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       )}

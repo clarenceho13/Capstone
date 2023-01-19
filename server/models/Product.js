@@ -11,6 +11,7 @@ const productSchema = new mongoose.Schema(
     ratings: {type: Number, required: true},
     reviewNum: {type: Number, required: true},
     stock: {type: Number, required: true},
+    category: { type: String, required: true},
   },
   { timestamps: true }
 );

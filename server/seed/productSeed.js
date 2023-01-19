@@ -12,6 +12,7 @@ const seedProduct = async (req, res) => {
       ratings: 3.5,
       reviewNum: 5,
       stock: 3,
+      category: 'Electronics',
     },
     {
       name: 'iPhone 14 Pro',
@@ -23,6 +24,7 @@ const seedProduct = async (req, res) => {
       ratings: 4.5,
       reviewNum: 12,
       stock: 0,
+      category: 'Electronics',
     },
     {
       name: 'iPhone 14 Pro Max',
@@ -34,6 +36,7 @@ const seedProduct = async (req, res) => {
       ratings: 5.0,
       reviewNum: 6,
       stock: 10,
+      category: 'Electronics',
     },
     {
       name: 'AirPods Pro',
@@ -45,6 +48,43 @@ const seedProduct = async (req, res) => {
       ratings: 4.0,
       reviewNum: 5,
       stock: 23,
+      category: 'Electronics',
+    },
+    {
+      name: 'Air Jordan 1 Lost & Found',
+      tag: 'Air Jordan 1 Lost & Found',
+      description: 'Recreation of the first Jordan 1',
+      price: 500,
+      image:
+        'https://res.cloudinary.com/dgmwjjrtf/image/upload/v1674134971/air-jordan-1-2022-lost-and-found-chicago-the-inspiration-behind-the-design_leyqbw.jpg',
+      ratings: 5.0,
+      reviewNum: 50,
+      stock: 0,
+      category: 'Sneakers',
+    },
+    {
+      name: 'Nike Dunk Low Panda',
+      tag: 'Nike Dunk Low Panda',
+      description: 'Most Popular Nike Dunks, everyone is wearing it!',
+      price: 300,
+      image:
+        'https://res.cloudinary.com/dgmwjjrtf/image/upload/v1674135205/nike-dunk-low-panda-2022-restock-dd1391-100-lead_na6qj7.jpg',
+      ratings: 4.5,
+      reviewNum: 35,
+      stock: 1,
+      category: 'Sneakers',
+    },
+    {
+      name: 'White Shoes',
+      tag: 'White Shoes',
+      description: 'Just basic white shoes',
+      price: 10,
+      image:
+        'https://res.cloudinary.com/dgmwjjrtf/image/upload/v1672316153/cld-sample-5.jpg',
+      ratings: 0.5,
+      reviewNum: 60,
+      stock: 100,
+      category: 'Sneakers',
     },
   ];
   await Product.deleteMany({});

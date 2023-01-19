@@ -1,22 +1,33 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
+const expressAsyncHandler = require('express-async-handler');
 const seedProduct = require('../seed/productSeed');
 
 // "/api/product"
 //! Seed Product
 router.get('/seed', seedProduct);
 
+//get categories
+router.get(
+  '/categories',
+  expressAsyncHandler(async (req, res) => {
+    const categories = await Product.find().distinct('category');
+    res.send(categories);
+  })
+);
+
 //get specific product data
-router.get('/:id',async (req,res)=>{
+router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const product = await Product.findById(id).exec();
     res.status(200).json(product);
   } catch (error) {
-    res.status(404).json({message: 'Product not found, hahaha'}); //fetch from error.jsx in frontend
+    res.status(404).json({ message: 'Product not found, hahaha' }); //fetch from error.jsx in frontend
   }
 });
+
 
 //! Get all product data
 router.get('/', async (req, res) => {
@@ -27,6 +38,7 @@ router.get('/', async (req, res) => {
     res.status(500).json(error);
   }
 });
+
 
 
 //! Get specific product data
