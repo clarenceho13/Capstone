@@ -224,7 +224,7 @@ function OrderStatus() {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
-                    <Col>GST</Col>
+                    <Col>GST 8%</Col>
                     <Col>${order.gstPrice.toFixed(2)}</Col>
                   </Row>
                 </ListGroup.Item>

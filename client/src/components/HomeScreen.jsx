@@ -46,7 +46,7 @@ function HomeScreen() {
   return (
     <div>
       <Helmet>
-        <title>Amazon Recreate</title>
+        <title>E Commerce Site</title>
       </Helmet>
       <h1>Featured Products</h1>
       <div className="products">

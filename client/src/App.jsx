@@ -5,6 +5,7 @@ import ProductScreen from './components/ProductScreen';
 import SignInPage from './components/SignInPage';
 import ShippingPage from './components/ShippingPage';
 import Navbar from 'react-bootstrap/Navbar';
+//import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Badge from 'react-bootstrap/Badge';
@@ -18,6 +19,7 @@ import PaymentModes from './components/PaymentModes';
 import OrderPage from './components/OrderPage';
 import OrderStatus from './components/OrderStatus';
 import OrderHistory from './components/OrderHistory';
+import UserProfile from './components/UserProfile';
 
 function App() {
   const { state, dispatch: contextDispatch } = useContext(Cart); //use this line for passing down context
@@ -28,55 +30,64 @@ function App() {
     localStorage.removeItem('userInfo'); //clear the user info from the localstorage
     localStorage.removeItem('shippingAddress');
     localStorage.removeItem('paymentMethod');
+    window.location.href ="/signin";
   };
   return (
     <BrowserRouter>
       <div className="d-flex flex-column site-container">
         <header>
-          <Navbar bg="dark" variant="dark">
+          <Navbar bg="dark" variant="dark" expand="lg">
             <Container>
               <LinkContainer to="/">
-                <Navbar.Brand>Clarence's Amazon</Navbar.Brand>
+              
+                <Navbar.Brand>
+                
+                
+                Clarence's E Commerce Site</Navbar.Brand>
               </LinkContainer>
-              <Nav className="me-auto">
-                <Link to="/cart" className="nav-link">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="25"
-                    height="25"
-                    fill="currentColor"
-                    className="bi bi-cart4"
-                    viewBox="0 0 16 16">
-                    <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
-                  </svg>
-                  {cart.items.length > 0 && (
-                    <Badge pill bg="danger">
-                      {cart.items.reduce((a, c) => a + c.quantity, 0)}
-                    </Badge>
-                  )}
-                </Link>
-
-                {userInfo ? (
-                  <NavDropdown title={userInfo.name} id="nav-dropdown">
-                    <LinkContainer to="/userprofile">
-                      <NavDropdown.Item>Your Account</NavDropdown.Item>
-                    </LinkContainer>
-                    <LinkContainer to="/orderhistory">
-                      <NavDropdown.Item>Your Orders</NavDropdown.Item>
-                    </LinkContainer>
-                    <Link
-                      className="dropdown-item"
-                      to="#signout"
-                      onClick={signOut}>
-                      Sign Out
-                    </Link>
-                  </NavDropdown>
-                ) : (
-                  <Link to="/signin" className="nav-link">
-                    Hello, Sign in
-                  </Link>
+              <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+              <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="me-auto w-100 justify-content-end">
+              <Link to="/cart" className="nav-link">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  fill="currentColor"
+                  className="bi bi-cart4"
+                  viewBox="0 0 16 16">
+                  <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
+                </svg>
+                {cart.items.length > 0 && (
+                  <Badge pill bg="danger">
+                    {cart.items.reduce((a, c) => a + c.quantity, 0)}
+                  </Badge>
                 )}
-              </Nav>
+              </Link>
+
+              {userInfo ? (
+                <NavDropdown title={userInfo.name} id="nav-dropdown">
+                  <LinkContainer to="/userprofile">
+                    <NavDropdown.Item>Your Account</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="/orderhistory">
+                    <NavDropdown.Item>Your Orders</NavDropdown.Item>
+                  </LinkContainer>
+                  <Link
+                    className="dropdown-item"
+                    to="#signout"
+                    onClick={signOut}>
+                    Sign Out
+                  </Link>
+                </NavDropdown>
+              ) : (
+                <Link to="/signin" className="nav-link">
+                  Hello, Sign in
+                </Link>
+              )}
+            </Nav>
+              </Navbar.Collapse>
+           
             </Container>
           </Navbar>
         </header>
@@ -92,6 +103,7 @@ function App() {
               <Route path="/orderhistory" element={<OrderHistory />} />
               <Route path="/order" element={<OrderPage />} />
               <Route path="/order/:id" element={<OrderStatus />} />
+              <Route path="/userprofile" element={<UserProfile />} />
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>

@@ -25,10 +25,12 @@ function OrderHistory() {
   const { state } = useContext(Cart);
   const { userInfo } = state;
   const navigate = useNavigate();
+
   const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
     loading: true,
     error: '',
   });
+
   useEffect(() => {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_REQUEST' });
@@ -37,7 +39,7 @@ function OrderHistory() {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
-      } catch (err) {
+      } catch (error) {
         dispatch({ type: 'FETCH_FAIL', payload: errorMessage(error) });
       }
     };
@@ -56,28 +58,28 @@ function OrderHistory() {
         <MessagePage variant="danger">{error}</MessagePage>
       ) : (
         <table className="table">
-          <thread>
+          <thead>
             <tr>
               <th>ID</th>
               <th>DATE</th>
-              <th>TOTAL</th>
-              <th>PAID</th>
-              <th>DELIVERED</th>
+              <th>SUB TOTAL</th>
+              <th>PAYMENT STATUS</th>
+              <th>DELIVERY</th>
               <th>ACTIONS</th>
             </tr>
-          </thread>
+          </thead>
           <tbody>
           {orders.map((order)=>(
             <tr key={order._id}>
             <td>{order._id}</td>
-            <td>{order.paymentDate.subString(0,10)}</td>
-            <td>{order.totalPrice.toFixed(2)}</td>
+            <td>{order.paymentDate}</td>
+            <td>${order.totalPrice.toFixed(2)}</td>
             <td>{order.paymentStatus ? order.paymentDate.substring(0,10): 'Not Paid'}</td>
             <td>{order.deliveryStatus ? order.deliveryDate.subString(0,10): 'Not Delivered'}</td>
             <td>
             <Button
             type="button"
-            variant="light"
+            variant="secondary"
             onClick={()=>{
                 navigate(`/order/${order._id}`);
             }}

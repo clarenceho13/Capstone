@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');
 const expressAsyncHandler = require('express-async-handler');
-const isAuth = require('../token');
+const isAuth = require('../isAuth');
 
 //make new order
 router.post(

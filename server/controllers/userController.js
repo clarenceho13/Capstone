@@ -4,7 +4,9 @@ const expressAsyncHandler = require('express-async-handler');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const isAuth= require('../isAuth');
 const generateToken = require('../token');
+//const generateToken2= require('../token');
 
 //users are seeded in the controller instead of the seed file
 router.get('/seed', async (req, res) => {
@@ -12,7 +14,6 @@ router.get('/seed', async (req, res) => {
     {
       name: 'clarence',
       email: 'clarence@email.com',
-      
       password: bcrypt.hashSync('hohoho', 10),
       admin: true,
     },
@@ -73,7 +74,14 @@ router.post(
   expressAsyncHandler(async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
     if (user) {
-      if (bcrypt.compareSync(req.body.password, user.password)) {
+      if (await bcrypt.compare(req.body.password, user.password)) {
+        //res
+        /*
+          .status(200)
+          .cookie("token", generateToken(user) , { httpOnly: true })
+          .json("Login Successful");
+        */
+        
         res.send({
           _id: user._id,
           name: user.name,
@@ -81,7 +89,8 @@ router.post(
           admin: user.admin,
           token: generateToken(user),
         });
-        return;
+        
+        //return;
       }
     }
     res
@@ -111,5 +120,28 @@ router.get('/', async (req, res) => {
     res.status(500).json(error);
   }
 });
+ 
+
+//update user profile 
+router.put('/profile', isAuth, expressAsyncHandler(async(req, res)=>{
+  const user = await User.findById(req.user._id);
+  if (user){
+    user.name=req.body.name || user.name;
+    user.email=req.body.email || user.email;
+    if (req.body.password){
+      user.password=bcrypt.hashSync(req.body.password, 10);
+    }
+    const updateUser = await user.save();
+    res.send({
+      _id: updateUser._id,
+      name: updateUser.name,
+      email: updateUser.email,
+      admin: updateUser.admin,
+      token: generateToken(updateUser),
+    })
+  } else {
+    res.status(404).json({message: 'User not found'});
+  }
+}) )
 
 module.exports = router;
