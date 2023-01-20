@@ -43,14 +43,14 @@ function ProductScreen() {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_REQUEST' }); //to set loading : true
       try {
-        const result = await axios.get(`/api/product/${id}`);
+        const result = await axios.get(`/api/product/${id}`); //id is the dependency
         dispatch({ type: 'FETCH_SUCCESS', payload: result.data }); //if fetch is a success, return the fetch success dispatch
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: errorMessage(err) }); //fetch error message from productcontroller
       }
       //setProduct(result.data);
     };
-    console.log(fetchData());
+    fetchData();
   }, [id]);
   //console.log(product.id)
 
@@ -89,9 +89,12 @@ function ProductScreen() {
               <h1>{product.name}</h1>
             </ListGroup.Item>
             <ListGroup.Item>
-              Ratings: {product.ratings}/5
+              Ratings: {product.ratings}/5 {''}
+              <i className="bi bi-star-fill"></i>
               <br />
-              Number of Reviews: {product.reviewNum}/5
+              Number of Reviews: {product.reviewNum} {''}
+              <i className="bi bi-person-fill"></i>
+              <i className="bi bi-chat-quote"></i>
             </ListGroup.Item>
             <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
             <ListGroup.Item>

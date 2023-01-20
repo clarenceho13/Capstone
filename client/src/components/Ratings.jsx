@@ -5,9 +5,14 @@ function Ratings(props) {
   const { ratings, reviewNum } = props;
   return (
     <div className="ratings">
-      <span> Ratings: {ratings}/5</span>
+      <span> Ratings: {ratings}/5 {''}
+      <i className="bi bi-star-fill"></i>
+      </span>
       <br />
-      <span>Number of reviews: {reviewNum}</span>
+      <span>Number of reviews: {reviewNum} {''}
+      <i className="bi bi-person-fill"></i>
+      <i className="bi bi-chat-quote"></i>
+      </span>
     </div>
   );
 }
