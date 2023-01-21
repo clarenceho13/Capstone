@@ -35,25 +35,24 @@ function UserProfile() {
   const submitProfile = async (e) => {
     e.preventDefault();
     try {
-        const { data }= await axios.put(
-            '/api/user/profile',
-            {
-                name,
-                email,
-                password,
-            },
-            {
-               headers: {authorization: `Bearer ${userInfo.token}`}
-            }
-        );
-        dispatch({type: 'UPDATE_SUCCESS',
-    });
-    contextDispatch({type: 'USER_SIGNIN', payload: data });
-    localStorage.setItem('userInfo', JSON.stringify(data));
-    alert('Profile Updated Successfully!');
+      const { data } = await axios.put(
+        '/api/user/profile',
+        {
+          name,
+          email,
+          password,
+        },
+        {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      dispatch({ type: 'UPDATE_SUCCESS' });
+      contextDispatch({ type: 'USER_SIGNIN', payload: data });
+      localStorage.setItem('userInfo', JSON.stringify(data));
+      alert('Profile Updated Successfully!');
     } catch (err) {
-      dispatch({ type: 'FETCH_FAIL', });
-      alert(errorMessage(err))
+      dispatch({ type: 'FETCH_FAIL' });
+      alert(errorMessage(err));
     }
   };
 
@@ -63,7 +62,7 @@ function UserProfile() {
         <title>Profile</title>
       </Helmet>
       <h1 className="my-3">
-      <i class="bi bi-person-circle"></i>
+        <i class="bi bi-person-circle"></i>
         {'    '}
         Profile
       </h1>
@@ -92,7 +91,7 @@ function UserProfile() {
             onChange={(e) => setPassword(e.target.value)}></Form.Control>
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
-          <Form.Label>Password</Form.Label>
+          <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type="password"
             value={confirmPassword}

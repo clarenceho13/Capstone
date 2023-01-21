@@ -61,7 +61,7 @@ function OrderHistory() {
           <thead>
             <tr>
               <th>ID</th>
-              <th>DATE</th>
+              
               <th>SUB TOTAL</th>
               <th>PAYMENT STATUS</th>
               <th>DELIVERY</th>
@@ -72,7 +72,7 @@ function OrderHistory() {
             {orders.map((order) => (
               <tr key={order._id}>
                 <td>{order._id}</td>
-                <td>{order.paymentDate}</td>
+                
                 <td>${order.totalPrice.toFixed(2)}</td>
                 <td>
                   {order.paymentStatus
