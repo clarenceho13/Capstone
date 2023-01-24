@@ -11,6 +11,8 @@ A Showcase of the tools learnt from my Software Engineering Immersive with Gener
 Project is created with:
 * Vite
 * React
+* React Router DOM
+* React Helmet Async
 * React Bootstrap
 * JWT Authentication
 * PayPal.js
