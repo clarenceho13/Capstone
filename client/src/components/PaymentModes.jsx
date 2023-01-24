@@ -13,7 +13,7 @@ function PaymentModes() {
     cart: { shippingAddress, paymentMethod },
   } = state; //initialState from context
   const [choosenPayment, setPaymentMethod] = useState(
-    paymentMethod || 'PayPal'
+    paymentMethod || 'PayPal' 
   );
   useEffect(() => {
     if (!shippingAddress.address) {
@@ -23,8 +23,8 @@ function PaymentModes() {
   const submitPayment = (e) => {
     e.preventDefault();
     contextDispatch({ type: 'SAVE_PAYMENT_METHOD', payload: choosenPayment });
-    localStorage.setItem('paymentMethod', choosenPayment);
-    navigate('/order');
+    localStorage.setItem('paymentMethod', choosenPayment)
+      navigate('/order');
   };
   return (
     <div>
@@ -41,20 +41,11 @@ function PaymentModes() {
           label="PayPal"
           checked={choosenPayment === 'PayPal'}
           onChange={(e) => setPaymentMethod(e.target.value)}></Form.Check>
-        <Form.Check
-          type="checkbox"
-          id="Stripe"
-          value="Stripe"
-          label="Stripe"
-          checked={choosenPayment === 'Stripe'}
-          onChange={(e) => setPaymentMethod(e.target.value)}></Form.Check>
-
-          <Button variant="warning" type="submit">
+        
+        <Button variant="warning" type="submit">
           Confirm
         </Button>
-
       </Form>
-      
     </div>
   );
 }

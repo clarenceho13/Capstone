@@ -27,8 +27,8 @@ const reducer = (state, action) => {
       return { ...state, loadingPay: false, successPay: true };
     case 'PAY_FAIL':
       return { ...state, loadingPay: false };
-      case 'PAY_RESET':
-        return { ...state, loadingPay: false, successPay: false };
+    case 'PAY_RESET':
+      return { ...state, loadingPay: false, successPay: false };
     default:
       return state;
   }
@@ -42,13 +42,14 @@ function OrderStatus() {
   const { id: orderId } = params;
   const navigate = useNavigate();
 
-  const [{ loading, error, order, loadingPay, successPay }, dispatch] = useReducer(reducer, {
-    loading: true,
-    order: {},
-    error: '',
-    successPay: false,
-    loadingPay: false,
-  });
+  const [{ loading, error, order, loadingPay, successPay }, dispatch] =
+    useReducer(reducer, {
+      loading: true,
+      order: {},
+      error: '',
+      successPay: false,
+      loadingPay: false,
+    });
 
   //dispatch paypalreducer
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
@@ -106,8 +107,8 @@ function OrderStatus() {
     }
     if (!order._id || successPay || (order._id && order._id !== orderId)) {
       fetchOrder();
-      if (successPay){
-        dispatch({type: 'PAY_RESET'});
+      if (successPay) {
+        dispatch({ type: 'PAY_RESET' });
       }
     } else {
       const loadPayPalScript = async () => {

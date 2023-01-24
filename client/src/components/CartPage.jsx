@@ -15,7 +15,7 @@ function CartPage() {
   const { state, dispatch: contextDispatch } = useContext(Cart);
   const {
     cart: { items },
-  } = state;
+  } = state; //initially empty
   
   //show whether the item is available or not
   const updateCart = async (item, quantity) => {
@@ -53,6 +53,7 @@ function CartPage() {
               {' '}
               Cart is empty!
               <Link to="/">Home Page</Link>
+              {/* cart is empty: item array is empty*/}
             </MessagePage>
           ) : (
             <ListGroup>

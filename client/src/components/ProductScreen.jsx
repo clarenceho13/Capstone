@@ -76,8 +76,8 @@ function ProductScreen() {
   ) : error ? (
     <MessagePage variant="danger">{error}</MessagePage>
   ) : (
-    <div>
-      <Row>
+    <div >
+      <Row >
         <Col md={6}></Col>
         <img className="img-large" src={product.image} alt={product.name} />
         <Col md={3}>
@@ -127,7 +127,7 @@ function ProductScreen() {
                 </ListGroup.Item>
                 {product.stock > 0 && (
                   <ListGroup.Item>
-                    <div className="d-grid">
+                    <div>
                       <Button onClick={addToCart} variant="primary">
                         Add to Cart
                       </Button>

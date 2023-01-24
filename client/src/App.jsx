@@ -24,6 +24,8 @@ import UserProfile from './components/UserProfile';
 import errorMessage from './components/error';
 import axios from 'axios';
 import SearchBar from './components/SearchBar';
+import SearchPage from './components/SearchPage';
+//import OrderStatusStrip from './components/OrderStatusStrip';
 
 function App() {
   const { state, dispatch: contextDispatch } = useContext(Cart); //use this line for passing down context
@@ -135,6 +137,7 @@ function App() {
             <Routes>
               <Route path="/product/:id" element={<ProductScreen />} />
               <Route path="/cart" element={<CartPage />} />
+              <Route path="/search" element={<SearchPage />} />
               <Route path="/signin" element={<SignInPage />} />
               <Route path="/signup" element={<SignUpPage />} />
               <Route path="/shipping" element={<ShippingPage />} />

@@ -3,6 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const path = require('path');
+const cors= require ('cors');
+const stripe= require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 //import controllers and models here
 //if model is already export to controller, then you only need to import the controller
@@ -37,6 +39,7 @@ app.use(morgan('dev'));
 app.use(express.json()); //to send json to frontend
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('../client/dist')); //express static for react
+app.use(cors());
 app.use('/api/keys/paypal',(req,res)=>{
 res.send(process.env.PAYPAL_CLIENT_ID || 'sb' );
 });

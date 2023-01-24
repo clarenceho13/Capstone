@@ -17,6 +17,71 @@ router.get(
   })
 );
 
+const PAGE_SIZE = 3;
+
+router.get(
+  '/search',
+  expressAsyncHandler(async (req, res) => {
+    const { query } = req;
+    const pageSize = query.pageSize || PAGE_SIZE;
+    const page = query.page || 1;
+    const category = query.category || '';
+    const price = query.price || '';
+    const order = query.order || '';
+    const searchQuery = query.query || '';
+
+    const queryFilter =
+      searchQuery && searchQuery !== 'all'
+        ? {
+            name: {
+              $regex: searchQuery,
+              $options: 'i',
+            },
+          }
+        : {};
+    const categoryFilter = category && category !== 'all' ? { category } : {};
+    const priceFilter =
+      price && price !== 'all'
+        ? {
+            price: {
+              $gte: Number(price.split('-')[0]),
+              $lte: Number(price.split('-')[1]),
+            },
+          }
+        : {};
+    const sortOrder =
+      order === 'featured'
+        ? { featured: -1 }
+        : order === 'lowest'
+        ? { price: 1 }
+        : order === 'highest'
+        ? { price: -1 }
+        : order === 'toprated'
+       
+
+    const products = await Product.find({
+      ...queryFilter,
+      ...categoryFilter,
+      ...priceFilter,
+    })
+      .sort(sortOrder)
+      .skip(pageSize * (page - 1))
+      .limit(pageSize);
+
+    const countProducts = await Product.countDocuments({
+      ...queryFilter,
+      ...categoryFilter,
+      ...priceFilter,
+    });
+    res.send({
+      products,
+      countProducts,
+      page,
+      pages: Math.ceil(countProducts / pageSize),
+    });
+  })
+);
+
 //get specific product data
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
@@ -28,7 +93,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-
 //! Get all product data
 router.get('/', async (req, res) => {
   try {
@@ -39,20 +103,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-
-
-//! Get specific product data
-/*
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
-  try {
-    const product = await Product.findById(id).exec();
-    res.status(200).json(product);
-  } catch (error) {
-    res.status(500).json({message: 'Product not found'});
-  }
-});
-*/
+//always put most specific in front
 
 module.exports = router;
 
