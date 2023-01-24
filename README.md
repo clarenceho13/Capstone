@@ -1,11 +1,11 @@
 # Capstone-Shopping Website
 A Showcase of the tools learnt from my Software Engineering Immersive with General Assembly Singapore.
 ## Table of contents
-* [Technologies]
-* [Wireframe] (#wireframe)
-* [Setup](#setup)
-* [Development] (#development)
-* [targetsnotmet] (#targetsnotmet)
+* Technologies
+* Wireframe 
+* Setup
+* Development 
+* Targets not met 
 	
 ## Technologies
 Project is created with:
