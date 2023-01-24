@@ -1,7 +1,7 @@
 # Capstone-Shopping Website
 A Showcase of the tools learnt from my Software Engineering Immersive with General Assembly Singapore.
 ## Table of contents
-* [Technologies](#technologies)
+* [Technologies]
 * [Wireframe] (#wireframe)
 * [Setup](#setup)
 * [Development] (#development)
