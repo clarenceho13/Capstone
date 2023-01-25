@@ -32,6 +32,5 @@ $ npm run start
 $ npm run build
 ```
 ## Targets not met 
-* Set up alternative payment method using Stripe.
 * Create an admin account to allow admin to add/remove/edit products.
 * Create a chat bot to allow admin and user to communicate. 
