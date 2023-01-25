@@ -25,6 +25,9 @@ import errorMessage from './components/error';
 import axios from 'axios';
 import SearchBar from './components/SearchBar';
 import SearchPage from './components/SearchPage';
+import ProtectedRoute from './components/ProtectedRoute';
+import DashboardPage from './components/DashboardPage';
+import AdminRoute from './components/AdminRoute';
 //import OrderStatusStrip from './components/OrderStatusStrip';
 
 function App() {
@@ -39,7 +42,7 @@ function App() {
     window.location.href = '/signin'; //direct to sign in page after successful sign out
   };
 
-  const [openSideBar, setOpenSideBar] = useState(false);
+  const [openSideBar, setOpenSideBar] = useState(false); //define a state for the side bar (open and close)
   const [categories, setCategories] = useState([]);
   //console.log(categories);
 
@@ -106,6 +109,22 @@ function App() {
                       Hello, Sign in
                     </Link>
                   )}
+                  { userInfo && userInfo.admin && (
+                    <NavDropdown title="Admin" id="admin-nav-dropdown">
+                    <LinkContainer to="/admin/dashboard">
+                    <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/admin/productlist">
+                    <NavDropdown.Item>Products</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/admin/orderlist">
+                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/admin/userlist">
+                    <NavDropdown.Item>Users</NavDropdown.Item>
+                    </LinkContainer>
+                    </NavDropdown>
+                  )}
                 </Nav>
               </Navbar.Collapse>
             </Container>
@@ -142,10 +161,33 @@ function App() {
               <Route path="/signup" element={<SignUpPage />} />
               <Route path="/shipping" element={<ShippingPage />} />
               <Route path="/payment" element={<PaymentModes />} />
-              <Route path="/orderhistory" element={<OrderHistory />} />
+              <Route
+                path="/orderhistory"
+                element={
+                  <ProtectedRoute>
+                    <OrderHistory />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="/order" element={<OrderPage />} />
-              <Route path="/order/:id" element={<OrderStatus />} />
-              <Route path="/userprofile" element={<UserProfile />} />
+              <Route
+                path="/order/:id"
+                element={
+                  <ProtectedRoute>
+                    <OrderStatus />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/userprofile"
+                element={
+                  <ProtectedRoute>
+                    <UserProfile />
+                  </ProtectedRoute>
+                }
+              />
+              {/*Admin routes*/}
+              <Route path="/admin/dashboard" element={<AdminRoute><DashboardPage /></AdminRoute>} />
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>

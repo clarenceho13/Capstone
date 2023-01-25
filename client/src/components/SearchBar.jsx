@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 function SearchBar() {
   const navigate = useNavigate();
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(''); //set state for the query that the user enter into the search bar
   const submitHandle = (e) => {
     e.preventDefault();
     navigate(query ? `/search/?query=${query}` : '/search');

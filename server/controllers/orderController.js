@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');
+const User = require ('../models/User');
+const Product= require('../models/Product');
 const expressAsyncHandler = require('express-async-handler');
 const isAuth = require('../isAuth');
+const admin = require('../admin');
 
 //make new order
 router.post(
@@ -21,6 +24,51 @@ router.post(
     });
     const order = await newOrder.save(); //create and save the new order
     res.status(201).send({ message: 'New Order Created', order });
+  })
+);
+
+router.get(
+  '/summary',
+  isAuth,
+  admin,
+  expressAsyncHandler(async (req, res) => {
+    const orders= await Order.aggregate([
+      {
+        $group: {
+          _id: null,
+          numOrders: {$sum: 1},
+          totalSales: {$sum: '$totalPrice'},
+        }
+      }
+    ]);
+    const users= await User.aggregate([
+      {
+        $group: {
+          _id: null,
+          numOrders: {$sum: 1},
+          
+        }
+      }
+    ]);
+    const dailyOrders = await Order.aggregate([
+      {
+        $group: {
+          _id: {$dateToString: {format: '%Y-%m-%d', date: '$createdAt'}},
+          orders: { $sum: 1},
+          sales: { $sum: '$totalPrice'},
+        },
+      },
+      {$sort: {_id:1}},
+    ]);
+    const productCategories = await Product.aggregate([
+      {
+        $group: {
+          _id: '$category',
+          count: { $sum:1 },
+        },
+      },
+    ]);
+    res.send({users, orders, dailyOrders, productCategories });
   })
 );
 
@@ -71,3 +119,5 @@ router.put(
 );
 
 module.exports = router;
+
+//https://www.mongodb.com/docs/manual/aggregation/

@@ -61,9 +61,9 @@ const prices = [
 
 function SearchPage() {
   const navigate = useNavigate();
-  const { search } = useLocation();
-  const searchProducts = new URLSearchParams(search); // /search?category=${category}
-  const category = searchProducts.get('category') || 'all';
+  const { search } = useLocation(); //seacrh contains the query string
+  const searchProducts = new URLSearchParams(search); 
+  const category = searchProducts.get('category') || 'all'; // /search?category=${category} or /search?category=all
   const query = searchProducts.get('query') || 'all';
   const price = searchProducts.get('price') || 'all';
   //const rating = searchProducts.get('rating') || 'all';
@@ -87,7 +87,7 @@ function SearchPage() {
       }
     };
     fetchData();
-  }, [page, query, category, price, order]);
+  }, [page, query, category, price, order]); //dependecies are from the search queries
 
   const [categories, setCategories] = useState([]);
   useEffect(() => {
@@ -184,7 +184,7 @@ function SearchPage() {
                       <Button
                         variant="light"
                         onClick={() => navigate('/search')}>
-                        <i class="bi bi-0-circle"></i>
+                        <i class="bi bi-search"></i>
                       </Button>
                     ) : null}
                   </div>
@@ -215,24 +215,22 @@ function SearchPage() {
               </Row>
               {/* pagination */}
               <div>
-              {[...Array(pages).keys()].map((x) => (
-                <LinkContainer
-                  key={x + 1}
-                  className="mx-1"
-                  to={{
-                    pathname: '/search',
-                    search: filterURL({ page: x + 1 }, true),
-                  }}
-                >
-                  <Button
-                    className={Number(page) === x + 1 ? 'text-bold' : ''}
-                    variant="light"
-                  >
-                    {x + 1}
-                  </Button>
-                </LinkContainer>
-              ))}
-            </div>
+                {[...Array(pages).keys()].map((x) => (
+                  <LinkContainer
+                    key={x + 1}
+                    className="mx-1"
+                    to={{
+                      pathname: '/search',
+                      search: filterURL({ page: x + 1 }, true),
+                    }}>
+                    <Button
+                      className={Number(page) === x + 1 ? 'text-bold' : ''}
+                      variant="light">
+                      {x + 1}
+                    </Button>
+                  </LinkContainer>
+                ))}
+              </div>
             </div>
           )}
         </Col>

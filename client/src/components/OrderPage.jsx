@@ -8,7 +8,7 @@ import Card from 'react-bootstrap/Card';
 import { Cart } from '../Cart';
 import errorMessage from '../components/error';
 import { Link, useNavigate } from 'react-router-dom';
-import Button from 'react-bootstrap/esm/Button';
+import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import LoadingPage from './LoadingPage';
 
