@@ -31,6 +31,8 @@ To run this project, install it locally using npm:
 $ npm run start
 $ npm run build
 ```
+## Development
+
 ## Targets not met 
 * Create an admin account to allow admin to add/remove/edit products.
 * Create a chat bot to allow admin and user to communicate. 
