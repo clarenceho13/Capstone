@@ -32,7 +32,11 @@ $ npm run start
 $ npm run build
 ```
 ## Development
-
+1. Wireframing and schema planning. 
+2. Set up backend (Server folder). 
+3. Product images URL copied from Cloudinary. 
+4. Add to cart state is managed by useReducer in Cart.jsx file. 
+5. Since 'add to cart' action is to be done in different pages, useContext is used to share the action. 
 ## Targets not met 
 * Create an admin account to allow admin to add/remove/edit products.
 * Create a chat bot to allow admin and user to communicate. 
