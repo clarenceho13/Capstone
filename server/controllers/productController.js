@@ -3,6 +3,9 @@ const router = express.Router();
 const Product = require('../models/Product');
 const expressAsyncHandler = require('express-async-handler');
 const seedProduct = require('../seed/productSeed');
+const isAuth = require('../isAuth');
+const admin = require('../admin');
+
 
 // "/api/product"
 //! Seed Product
@@ -18,6 +21,25 @@ router.get(
 );
 
 const PAGE_SIZE = 3;
+
+router.get(
+  '/admin',
+  isAuth, admin, expressAsyncHandler(async (req, res)=>{
+    const {query} = req;
+    const page= query.page || 1;
+    const pageSize = query.pageSize || PAGE_SIZE;
+    const products= await Product.find()
+    .skip(pageSize * (page -1))
+    .limit(pageSize);
+    const countProducts = await Product.countDocuments();
+    res.send({
+      products,
+      countProducts,
+      page,
+      pages: Math.ceil(countProducts / pageSize),
+    });
+  })
+);
 
 router.get(
   '/search',

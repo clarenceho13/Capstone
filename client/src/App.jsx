@@ -28,7 +28,8 @@ import SearchPage from './components/SearchPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import DashboardPage from './components/DashboardPage';
 import AdminRoute from './components/AdminRoute';
-//import OrderStatusStrip from './components/OrderStatusStrip';
+import ProductList from './components/ProductList';
+
 
 function App() {
   const { state, dispatch: contextDispatch } = useContext(Cart); //use this line for passing down context
@@ -109,20 +110,20 @@ function App() {
                       Hello, Sign in
                     </Link>
                   )}
-                  { userInfo && userInfo.admin && (
+                  {userInfo && userInfo.admin && (
                     <NavDropdown title="Admin" id="admin-nav-dropdown">
-                    <LinkContainer to="/admin/dashboard">
-                    <NavDropdown.Item>Dashboard</NavDropdown.Item>
-                    </LinkContainer>
-                    <LinkContainer to="/admin/productlist">
-                    <NavDropdown.Item>Products</NavDropdown.Item>
-                    </LinkContainer>
-                    <LinkContainer to="/admin/orderlist">
-                    <NavDropdown.Item>Orders</NavDropdown.Item>
-                    </LinkContainer>
-                    <LinkContainer to="/admin/userlist">
-                    <NavDropdown.Item>Users</NavDropdown.Item>
-                    </LinkContainer>
+                      <LinkContainer to="/admin/dashboard">
+                        <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/product">
+                        <NavDropdown.Item>Products</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/orderlist">
+                        <NavDropdown.Item>Orders</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/userlist">
+                        <NavDropdown.Item>Users</NavDropdown.Item>
+                      </LinkContainer>
                     </NavDropdown>
                   )}
                 </Nav>
@@ -187,7 +188,22 @@ function App() {
                 }
               />
               {/*Admin routes*/}
-              <Route path="/admin/dashboard" element={<AdminRoute><DashboardPage /></AdminRoute>} />
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <AdminRoute>
+                    <DashboardPage />
+                  </AdminRoute>
+                }
+              />
+              <Route
+              path="/admin/product"
+              element={
+                <AdminRoute>
+                  <ProductList />
+                </AdminRoute>
+              }
+            />
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>

@@ -136,4 +136,4 @@ export default CartPage;
 //button variants referred from https://react-bootstrap.github.io/components/buttons/
 //button icons from https://icons.getbootstrap.com/
 //buttons are disabled under certain conditions
-//
+

@@ -20,7 +20,7 @@ const initialState = {
   },
 };
 //items are stored in local storage and should not be empty array
-//reducer is independent of the component and hence declared outside
+//reducer is independent of the component and hence declared outside of the component
 function reducer(state, action) {
   switch (action.type) {
     case 'ADD_TO_CART':
