@@ -36,7 +36,32 @@ router.post(
       category: 'sample category',
     });
     const product = await newProduct.save();
-    res.send({message: 'Product Created', product });
+    res.send({ message: 'Product Created', product });
+  })
+);
+
+router.put(
+  '/:id',
+  isAuth,
+  admin,
+  expressAsyncHandler(async (req, res) => {
+    const productId = req.params.id;
+    const product = await Product.findById(productId);
+    if (product) {
+      product.name = req.body.name;
+      product.tag = req.body.tag;
+      product.description = req.body.description;
+      product.price = req.body.price;
+      product.image = req.body.image;
+      product.ratings = req.body.ratings;
+      product.reviewNum = req.body.reviewNum;
+      product.stock = req.body.stock;
+      product.category = req.body.category;
+      await product.save();
+      res.send({ message: 'Product Updated' });
+    }else {
+      res.status(404).json({message: 'Product not Found'})
+    }
   })
 );
 

@@ -29,6 +29,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import DashboardPage from './components/DashboardPage';
 import AdminRoute from './components/AdminRoute';
 import ProductList from './components/ProductList';
+import ProductEdit from './components/ProductEdit';
 
 
 function App() {
@@ -118,10 +119,10 @@ function App() {
                       <LinkContainer to="/admin/product">
                         <NavDropdown.Item>Products</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/admin/orderlist">
+                      <LinkContainer to="/admin/order">
                         <NavDropdown.Item>Orders</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/admin/userlist">
+                      <LinkContainer to="/admin/user">
                         <NavDropdown.Item>Users</NavDropdown.Item>
                       </LinkContainer>
                     </NavDropdown>
@@ -201,6 +202,14 @@ function App() {
               element={
                 <AdminRoute>
                   <ProductList />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/product/:id"
+              element={
+                <AdminRoute>
+                  <ProductEdit />
                 </AdminRoute>
               }
             />
