@@ -1,11 +1,14 @@
 import React, { useReducer, useContext, useEffect } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Cart } from '../Cart';
 import errorMessage from './error';
 import LoadingPage from './LoadingPage';
 import MessagePage from './MessagePage';
 import { Link } from 'react-router-dom';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -21,18 +24,29 @@ const reducer = (state, action) => {
       };
     case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
+
+      case 'CREATE_REQUEST':
+        return { ...state, loadingCreate: true };
+      case 'CREATE_SUCCESS':
+        return {
+          ...state,
+          loadingCreate: false
+        };
+      case 'CREATE_FAIL':
+        return { ...state, loadingCreate: false };
     default:
       return state;
   }
 };
 
 function ProductList() {
-  const [{ products, error, pages, loading }, dispatch] = useReducer(reducer, {
+  const [{ products, error, pages, loading, loadingCreate }, dispatch] = useReducer(reducer, {
     loading: true,
     error: '',
   });
 
-  const { search, pathname } = useLocation();
+  const navigate= useNavigate();
+  const { search } = useLocation();
   const searchParam = new URLSearchParams(search);
   const page = searchParam.get('page') || 1;
 
@@ -52,9 +66,47 @@ function ProductList() {
     };
     fetchData();
   }, [page, userInfo]);
+
+  const createProduct = async () => {
+    if (window.confirm('Ready to Proceed?')) {
+      
+      try{
+        dispatch({ type: 'CREATE_REQUEST' });
+        const { data }= await axios.post(
+            '/api/product',
+            {},
+            {
+                headers: {Authorization: `Bearer ${userInfo.token}`},
+            }
+
+        );
+        alert('Product created successfully!');
+        dispatch({type:'CREATE_SUCCESS'});
+        navigate(`/admin/product/${data.product._id}`);
+
+      }catch (err){
+        alert(errorMessage(err));
+        dispatch({
+            type: 'CREATE_FAIL',
+        });
+      }
+    }
+  };
+
   return (
     <div>
-      <h1>Products</h1>
+      <Row>
+        <Col>
+          <h1>Products</h1>
+        </Col>
+        <Col className="col text-end">
+          <Button type="button" variant="warning" onClick={createProduct}>
+            Create Product
+          </Button>
+        </Col>
+      </Row>
+      {loadingCreate && <LoadingPage></LoadingPage>}
+
       {loading ? (
         <LoadingPage />
       ) : error ? (

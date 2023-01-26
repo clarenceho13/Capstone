@@ -6,7 +6,6 @@ const seedProduct = require('../seed/productSeed');
 const isAuth = require('../isAuth');
 const admin = require('../admin');
 
-
 // "/api/product"
 //! Seed Product
 router.get('/seed', seedProduct);
@@ -20,17 +19,40 @@ router.get(
   })
 );
 
+router.post(
+  '/',
+  isAuth,
+  admin,
+  expressAsyncHandler(async (req, res) => {
+    const newProduct = new Product({
+      name: 'sample name' + Date.now(),
+      tag: 'sample-name-' + Date.now(),
+      description: 'sample description',
+      price: 0,
+      image: '/images/p1.jpg',
+      ratings: 0,
+      reviewNum: 0,
+      stock: 0,
+      category: 'sample category',
+    });
+    const product = await newProduct.save();
+    res.send({message: 'Product Created', product });
+  })
+);
+
 const PAGE_SIZE = 3;
 
 router.get(
   '/admin',
-  isAuth, admin, expressAsyncHandler(async (req, res)=>{
-    const {query} = req;
-    const page= query.page || 1;
+  isAuth,
+  admin,
+  expressAsyncHandler(async (req, res) => {
+    const { query } = req;
+    const page = query.page || 1;
     const pageSize = query.pageSize || PAGE_SIZE;
-    const products= await Product.find()
-    .skip(pageSize * (page -1))
-    .limit(pageSize);
+    const products = await Product.find()
+      .skip(pageSize * (page - 1))
+      .limit(pageSize);
     const countProducts = await Product.countDocuments();
     res.send({
       products,
@@ -78,8 +100,7 @@ router.get(
         ? { price: 1 }
         : order === 'highest'
         ? { price: -1 }
-        : order === 'toprated'
-       
+        : order === 'toprated';
 
     const products = await Product.find({
       ...queryFilter,
