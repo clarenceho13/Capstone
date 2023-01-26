@@ -59,12 +59,26 @@ router.put(
       product.category = req.body.category;
       await product.save();
       res.send({ message: 'Product Updated' });
-    }else {
-      res.status(404).json({message: 'Product not Found'})
+    } else {
+      res.status(404).json({ message: 'Product not Found' });
     }
   })
 );
 
+router.delete(
+  '/:id',
+  isAuth,
+  admin,
+  expressAsyncHandler(async (req, res) => {
+    const product = await Product.findById(req.params.id);
+    if (product) {
+      await product.remove();
+      res.send({ message: 'Product Deleted' });
+    } else {
+      res.status(404).json({ message: 'Product not Found' });
+    }
+  })
+);
 const PAGE_SIZE = 3;
 
 router.get(
