@@ -12,6 +12,7 @@ const productController = require('../server/controllers/productController');
 //const User = require('../server/models/User'); (note:use this code to set login)
 const userController = require('../server/controllers/userController');
 const orderController= require('../server/controllers/orderController');
+const uploadController= require('../server/controllers/uploadController');
 
 //! CONFIGURATION AND CONNECTION
 const app = express();
@@ -49,6 +50,7 @@ res.send(process.env.PAYPAL_CLIENT_ID || 'sb' );
 app.use('/api/product', productController);
 app.use('/api/user', userController);
 app.use('/api/orders', orderController);
+app.use('/api/upload', uploadController);
 
 //middleware for error
 app.use((err, req, res, next )=>{
