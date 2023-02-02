@@ -30,6 +30,7 @@ import DashboardPage from './components/DashboardPage';
 import AdminRoute from './components/AdminRoute';
 import ProductList from './components/ProductList';
 import ProductEdit from './components/ProductEdit';
+import OrderList from './components/OrderList';
 
 
 function App() {
@@ -202,6 +203,14 @@ function App() {
               element={
                 <AdminRoute>
                   <ProductList />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/order"
+              element={
+                <AdminRoute>
+                  <OrderList />
                 </AdminRoute>
               }
             />

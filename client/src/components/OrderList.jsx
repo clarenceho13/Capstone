@@ -72,7 +72,7 @@ function OrderList() {
     <tr>
     <th>ID</th>
     <th>USER</th>
-    <th>DATE</th>
+    
     <th>TOTAL</th>
     <th>PAID</th>
     <th>DELIVERED</th>
@@ -84,8 +84,8 @@ function OrderList() {
         <tr key={order._id}>
         <td>{order._id}</td>
         <td>{order.user ? order.user.name : 'Deleted User'}</td>
-        <td>{order.paymentStatus}</td>
-        <td>{order.totalPrice.toFixed(2)}</td>
+        
+        <td>${order.totalPrice.toFixed(2)}</td>
         <td>{order.paymentStatus ? order.paymentDate : 'Not Paid'}</td>
         <td>{order.deliveryStatus ? order.deliveryDate : 'Not Delivered'}</td>
         <td>

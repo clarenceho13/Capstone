@@ -7,6 +7,11 @@ const expressAsyncHandler = require('express-async-handler');
 const isAuth = require('../isAuth');
 const admin = require('../admin');
 
+router.get("/", isAuth, admin, expressAsyncHandler(async(req, res)=>{
+  const orders =await Order.find().populate('user', 'name');
+  res.send(orders);
+}) )
+
 //make new order
 router.post(
   '/',
