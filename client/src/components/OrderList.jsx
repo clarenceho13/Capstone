@@ -57,56 +57,57 @@ function OrderList() {
     fetchData();
   }, [userInfo]);
 
-  return <div>
-  <Helmet>
-  <title>Orders</title>
-  </Helmet>
-  <h1>Orders</h1>
-  {loading ? (
-    <LoadingPage />
-  ):error ?(
-    <MessagePage variant="danger">{error}</MessagePage>
-  ): (
-    <table className="table">
-    <thead>
-    <tr>
-    <th>ID</th>
-    <th>USER</th>
-    
-    <th>TOTAL</th>
-    <th>PAID</th>
-    <th>DELIVERED</th>
-    <th>ACTIONS</th>
-    </tr>
-    </thead>
-    <tbody>
-    {orders.map((order)=>(
-        <tr key={order._id}>
-        <td>{order._id}</td>
-        <td>{order.user ? order.user.name : 'Deleted User'}</td>
-        
-        <td>${order.totalPrice.toFixed(2)}</td>
-        <td>{order.paymentStatus ? order.paymentDate : 'Not Paid'}</td>
-        <td>{order.deliveryStatus ? order.deliveryDate : 'Not Delivered'}</td>
-        <td>
-        <Button
-        type="button"
-        variant="secondary"
-        onClick={()=>{
-            navigate(`/order/${order._id}`);
-        }}
-        >
-        Details
-        
-        </Button>
-        </td>
-        </tr>
-    ))}
-    </tbody>
-    </table>
+  return (
+    <div>
+      <Helmet>
+        <title>Orders</title>
+      </Helmet>
+      <h1>Orders</h1>
+      {loading ? (
+        <LoadingPage />
+      ) : error ? (
+        <MessagePage variant="danger">{error}</MessagePage>
+      ) : (
+        <table className="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>USER</th>
 
-  )}
-  </div>;
+              <th>TOTAL</th>
+              <th>PAID</th>
+              <th>DELIVERED</th>
+              <th>ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map((order) => (
+              <tr key={order._id}>
+                <td>{order._id}</td>
+                <td>{order.user ? order.user.name : 'Deleted User'}</td>
+
+                <td>${order.totalPrice.toFixed(2)}</td>
+                <td>{order.paymentStatus ? order.paymentDate : 'Not Paid'}</td>
+                <td>
+                  {order.deliveryStatus ? order.deliveryDate : 'Not Delivered'}
+                </td>
+                <td>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={() => {
+                      navigate(`/order/${order._id}`);
+                    }}>
+                    Details
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  );
 }
 
 export default OrderList;

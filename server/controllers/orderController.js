@@ -102,6 +102,23 @@ router.get(
 );
 
 router.put(
+  '/:id/deliver',
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id);
+    if (order){
+      order.deliveryStatus = true;
+      order.deliveryDate = Date.now();
+      await order.save();
+      res.send({message: 'Order Delivered'});
+    }else {
+      res.status(404).send({message: 'Order not found'});
+    }
+
+
+  }))
+
+router.put(
   '/:id/pay',
   isAuth,
   expressAsyncHandler(async (req, res) => {
