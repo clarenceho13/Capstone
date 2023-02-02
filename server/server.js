@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const path = require('path');
 const cors= require ('cors');
-const stripe= require("stripe")(process.env.STRIPE_SECRET_KEY);
+//const stripe= require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 //import controllers and models here
 //if model is already export to controller, then you only need to import the controller
