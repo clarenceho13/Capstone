@@ -28,6 +28,30 @@ function reducer(state, action) {
         loading: false,
         error: action.payload,
       };
+      case 'DELETE_REQUEST':
+        return {
+          ...state,
+          loadingDelete: true,
+          successDelete: false,
+        };
+  
+      case 'DELETE_SUCCESS':
+        return {
+          ...state,
+          loadingDelete: false,
+          successDelete: true,
+        };
+      case 'DELETE_FAIL':
+        return {
+          ...state,
+          loadingDelete: false,
+        };
+        case 'DELETE_RESET':
+        return {
+          ...state,
+          loadingDelete: false,
+          successDelete: false,
+        };
     default:
       return state;
   }
@@ -37,7 +61,7 @@ function OrderList() {
   const navigate = useNavigate();
   const { state } = useContext(Cart);
   const { userInfo } = state;
-  const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
+  const [{ loading, error, orders, loadingDelete, successDelete }, dispatch] = useReducer(reducer, {
     loading: true,
     error: '',
   });
@@ -54,8 +78,28 @@ function OrderList() {
         dispatch({ type: 'FETCH_FAIL', payload: errorMessage(err) });
       }
     };
-    fetchData();
-  }, [userInfo]);
+    if (successDelete){
+      dispatch({type: 'DELETE_RESET'});
+    }else {
+      fetchData();
+    }
+  }, [userInfo, successDelete]);
+
+  const deleteOrder = async(order) => {
+    if (window.confirm('Proceed to delete?')) {
+      try {
+        dispatch({ type: 'DELETE_REQUEST' });
+        await axios.delete(`/api/orders/${order._id}`, {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        });
+        alert('Order deleted successfully!');
+        dispatch({ type: 'DELETE_SUCCESS' });
+      } catch (err) {
+        alert(errorMessage(error));
+        dispatch({ type: 'DELETE_FAIL' });
+      }
+    }
+  };
 
   return (
     <div>
@@ -63,6 +107,7 @@ function OrderList() {
         <title>Orders</title>
       </Helmet>
       <h1>Orders</h1>
+      {loadingDelete && <LoadingPage></LoadingPage>}
       {loading ? (
         <LoadingPage />
       ) : error ? (
@@ -94,11 +139,18 @@ function OrderList() {
                 <td>
                   <Button
                     type="button"
-                    variant="secondary"
+                    variant="light"
                     onClick={() => {
                       navigate(`/order/${order._id}`);
                     }}>
                     Details
+                  </Button>
+                  {''}  
+                  <Button
+                    type="button"
+                    variant="light"
+                    onClick={() => deleteOrder(order)}>
+                    Delete
                   </Button>
                 </td>
               </tr>
