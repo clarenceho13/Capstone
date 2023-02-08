@@ -4,14 +4,10 @@ const expressAsyncHandler = require('express-async-handler');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
-const isAuth= require('../isAuth');
+const isAuth = require('../isAuth');
 const admin = require('../admin');
 const generateToken = require('../token');
 //const generateToken2= require('../token');
-
-
-
-
 
 //users are seeded in the controller instead of the seed file
 router.get('/seed', async (req, res) => {
@@ -30,7 +26,7 @@ router.get('/seed', async (req, res) => {
     },
   ];
   try {
-   await User.deleteMany({}); //* delete all users
+    await User.deleteMany({}); //* delete all users
     const user = await User.create(seedUser);
     res.json(user);
   } catch (error) {
@@ -38,46 +34,66 @@ router.get('/seed', async (req, res) => {
   }
 });
 
-router.get('/', isAuth, admin, expressAsyncHandler(async(req, res)=>{
-  const users= await User.find({});
-  res.send(users)
-}))
+router.get(
+  '/:id',
+  isAuth,
+  admin,
+  expressAsyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+    if (user) {
+      res.send(user);
+    } else {
+      res.status(404).send({ message: 'User not found' });
+    }
+  })
+);
 
+router.get(
+  '/',
+  isAuth,
+  admin,
+  expressAsyncHandler(async (req, res) => {
+    const users = await User.find({});
+    res.send(users);
+  })
+);
 
-//might use later
-/*
-router.get("/", async (req, res) => {
-  // Check for the presence of session data
-  if (!req.session.username) {
-    res.status(401).send("Unauthorized");
-    return;
-  }
-  try {
-    const users = await User.find({}).exec();
-    console.log(users);
-    res.json(users);
-  } catch (error) {
-    res.status(500).json(error);
-    console.log(error);
-  }
-});
-*/
+router.put(
+  '/:id',
+  isAuth,
+  admin,
+  expressAsyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
+      user.admin = Boolean(req.body.admin);
+      const updateUser = await user.save();
+      res.send({ message: 'User Updated', user: updateUser });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  })
+);
 
-router.post('/signup', expressAsyncHandler(async (req,res)=>{
-  const newUser = new User({
-    name: req.body.name,
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 10),
-  });
-  const user = await newUser.save();
-  res.send({
-    _id: user._id,
-    name: user.name,
-    email: user.email,
-    admin: user.admin,
-    token: generateToken(user),
-  });
-  }));
+router.post(
+  '/signup',
+  expressAsyncHandler(async (req, res) => {
+    const newUser = new User({
+      name: req.body.name,
+      email: req.body.email,
+      password: bcrypt.hashSync(req.body.password, 10),
+    });
+    const user = await newUser.save();
+    res.send({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      admin: user.admin,
+      token: generateToken(user),
+    });
+  })
+);
 
 //need to define error handler for express in server.js
 router.post(
@@ -92,7 +108,7 @@ router.post(
           .cookie("token", generateToken(user) , { httpOnly: true })
           .json("Login Successful");
         */
-        
+
         res.send({
           _id: user._id,
           name: user.name,
@@ -100,7 +116,7 @@ router.post(
           admin: user.admin,
           token: generateToken(user),
         });
-        
+
         //return;
       }
     }
@@ -120,7 +136,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-
 //! Get all users data
 //localhost:3000/api/user/
 router.get('/', async (req, res) => {
@@ -131,28 +146,31 @@ router.get('/', async (req, res) => {
     res.status(500).json(error);
   }
 });
- 
 
-//update user profile 
-router.put('/profile', isAuth, expressAsyncHandler(async(req, res)=>{
-  const user = await User.findById(req.user._id);
-  if (user){
-    user.name=req.body.name || user.name;
-    user.email=req.body.email || user.email;
-    if (req.body.password){
-      user.password=bcrypt.hashSync(req.body.password, 10);
+//update user profile
+router.put(
+  '/profile',
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const user = await User.findById(req.user._id);
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
+      if (req.body.password) {
+        user.password = bcrypt.hashSync(req.body.password, 10);
+      }
+      const updateUser = await user.save();
+      res.send({
+        _id: updateUser._id,
+        name: updateUser.name,
+        email: updateUser.email,
+        admin: updateUser.admin,
+        token: generateToken(updateUser),
+      });
+    } else {
+      res.status(404).json({ message: 'User not found' });
     }
-    const updateUser = await user.save();
-    res.send({
-      _id: updateUser._id,
-      name: updateUser.name,
-      email: updateUser.email,
-      admin: updateUser.admin,
-      token: generateToken(updateUser),
-    })
-  } else {
-    res.status(404).json({message: 'User not found'});
-  }
-}) )
+  })
+);
 
 module.exports = router;

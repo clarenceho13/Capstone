@@ -71,7 +71,7 @@ function UserList() {
               <th>NAME</th>
               <th>EMAIL</th>
              
-              <th>IS ADMIN</th>
+              <th>ADMIN</th>
               <th>ACTIONS</th>
             </tr>
           </thead>

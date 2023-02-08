@@ -32,6 +32,7 @@ import ProductList from './components/ProductList';
 import ProductEdit from './components/ProductEdit';
 import OrderList from './components/OrderList';
 import UserList from './components/UserList';
+import UserEdit from './components/UserEdit';
 
 
 function App() {
@@ -231,6 +232,14 @@ function App() {
                 </AdminRoute>
               }
             />
+            <Route
+            path="/admin/user/:id"
+            element={
+              <AdminRoute>
+                <UserEdit />
+              </AdminRoute>
+            }
+          />
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>
