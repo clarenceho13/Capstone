@@ -43,7 +43,7 @@ router.get(
     if (user) {
       res.send(user);
     } else {
-      res.status(404).send({ message: 'User not found' });
+      res.status(404).json({ message: 'User not found' });
     }
   })
 );
@@ -69,19 +69,20 @@ router.put(
 );
 
 router.delete(
-  ':/id',
+  '/:id',
   isAuth, 
   admin,
   expressAsyncHandler(async (req, res)=>{
     const user = await User.findById(req.params.id);
     if (user) {
       if (user.admin === true){
-        res.status(400).send({message: 'Cannot delete Admin'})
+        res.status(400).send({message: 'Cannot delete Admin'});
+        
       }
       await user.remove();
       res.send({message: 'User Deleted'});
     }else {
-      res.status(404).send({message: 'User not found'});
+      res.status(404).json({message: 'User not found'});
     }
   })
 );
