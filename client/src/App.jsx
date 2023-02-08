@@ -31,6 +31,7 @@ import AdminRoute from './components/AdminRoute';
 import ProductList from './components/ProductList';
 import ProductEdit from './components/ProductEdit';
 import OrderList from './components/OrderList';
+import UserList from './components/UserList';
 
 
 function App() {
@@ -211,6 +212,14 @@ function App() {
               element={
                 <AdminRoute>
                   <OrderList />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/user"
+              element={
+                <AdminRoute>
+                  <UserList />
                 </AdminRoute>
               }
             />

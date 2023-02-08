@@ -5,8 +5,13 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const isAuth= require('../isAuth');
+const admin = require('../admin');
 const generateToken = require('../token');
 //const generateToken2= require('../token');
+
+
+
+
 
 //users are seeded in the controller instead of the seed file
 router.get('/seed', async (req, res) => {
@@ -32,6 +37,12 @@ router.get('/seed', async (req, res) => {
     res.status(500).json(error);
   }
 });
+
+router.get('/', isAuth, admin, expressAsyncHandler(async(req, res)=>{
+  const users= await User.find({});
+  res.send(users)
+}))
+
 
 //might use later
 /*
