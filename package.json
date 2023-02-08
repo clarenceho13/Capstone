@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/clarenceho13/Capstone/issues"
   },
-  "homepage": "https://github.com/clarenceho13/Capstone#readme"
+  "homepage": "https://github.com/clarenceho13/Capstone#readme",
+  "dependencies": {
+    "morgan": "^1.10.0"
+  }
 }
