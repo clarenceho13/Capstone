@@ -109,7 +109,7 @@ function ProductList() {
   };
 
   const deleteProduct = async (product) => {
-    if (window.confirm('Are you sure you want to delete this?')) {
+    if (window.confirm('Are you sure you want to delete this product?')) {
       try {
         await axios.delete(`/api/product/${product._id}`,{
             headers: {Authorization: `Bearer ${userInfo.token}`},
